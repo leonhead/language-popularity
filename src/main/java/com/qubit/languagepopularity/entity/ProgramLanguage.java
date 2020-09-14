@@ -1,11 +1,11 @@
 package com.qubit.languagepopularity.entity;
 
-public class Language {
+public class ProgramLanguage {
 
 	private Long id;
 	private String name;
 
-	public Language(String name) {
+	public ProgramLanguage(String name) {
 		this.name = name;
 	}
 

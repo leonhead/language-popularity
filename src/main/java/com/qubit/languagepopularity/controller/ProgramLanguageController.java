@@ -8,19 +8,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.qubit.languagepopularity.entity.Language;
-import com.qubit.languagepopularity.service.LanguageService;
+import com.qubit.languagepopularity.entity.ProgramLanguage;
+import com.qubit.languagepopularity.service.ProgramLanguageService;
 
 @Controller
 @RequestMapping("languages")
-public class LanguageController {
+public class ProgramLanguageController {
 	
 	@Autowired
-	private LanguageService languageService;
+	private ProgramLanguageService languageService;
 	
 	@GetMapping()
 	public String listLanguages(Model model) {
-		List<Language> languages = languageService.findAll();
+		List<ProgramLanguage> languages = languageService.findAll();
 		model.addAttribute("languages", languages);
 		
 		return "list-languages";

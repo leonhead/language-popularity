@@ -1,14 +1,14 @@
 package com.qubit.languagepopularity.entity;
 
-public class Repository {
+public class GithubRepository {
 
 	private Long id;
 	private String fullName;
 	private String htmlUrl;
 	private int stargazersCount;
-	private Language language;
+	private ProgramLanguage language;
 
-	public Repository(String fullName, String htmlUrl, int stargazersCount, Language language) {
+	public GithubRepository(String fullName, String htmlUrl, int stargazersCount, ProgramLanguage language) {
 		this.fullName = fullName;
 		this.htmlUrl = htmlUrl;
 		this.stargazersCount = stargazersCount;
@@ -47,11 +47,11 @@ public class Repository {
 		this.stargazersCount = stargazersCount;
 	}
 
-	public Language getLanguage() {
+	public ProgramLanguage getLanguage() {
 		return language;
 	}
 
-	public void setLanguage(Language language) {
+	public void setLanguage(ProgramLanguage language) {
 		this.language = language;
 	}
 
