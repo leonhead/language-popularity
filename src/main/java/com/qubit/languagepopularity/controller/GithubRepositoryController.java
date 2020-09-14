@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.qubit.languagepopularity.entity.GithubRepository;
+import com.qubit.languagepopularity.entity.GithubRepo;
 import com.qubit.languagepopularity.service.GithubRepositoryService;
 
 @Controller
@@ -20,7 +20,7 @@ public class GithubRepositoryController {
 
 	@GetMapping()
 	public String listRepositories(Model model) {
-		List<GithubRepository> repositories = repositoryService.findAll();
+		List<GithubRepo> repositories = repositoryService.findAll();
 		model.addAttribute("repositories", repositories);
 		return "list-repositories";
 	}

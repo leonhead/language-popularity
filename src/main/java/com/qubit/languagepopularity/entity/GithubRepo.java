@@ -1,14 +1,47 @@
 package com.qubit.languagepopularity.entity;
 
-public class GithubRepository {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "github_repository")
+public class GithubRepo {
+
+	@Id()
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "github_repository_id")
 	private Long id;
+	
+	@Column(name="github_id")
+	private Long githubId;
+	
+	@Column(name="created")
+	private Long created;
+
+	@Column(name = "full_name")
 	private String fullName;
+
+	@Column(name = "html_url")
 	private String htmlUrl;
+
+	@Column(name = "stargazers_count")
 	private int stargazersCount;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "program_language_id")
 	private ProgramLanguage language;
 
-	public GithubRepository(String fullName, String htmlUrl, int stargazersCount, ProgramLanguage language) {
+	public GithubRepo() {
+	}
+
+	public GithubRepo(String fullName, String htmlUrl, int stargazersCount, ProgramLanguage language) {
 		this.fullName = fullName;
 		this.htmlUrl = htmlUrl;
 		this.stargazersCount = stargazersCount;

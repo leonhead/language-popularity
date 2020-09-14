@@ -2,17 +2,21 @@ package com.qubit.languagepopularity.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.qubit.languagepopularity.entity.ProgramLanguage;
-import com.qubit.languagepopularity.entity.GithubRepository;
+import com.qubit.languagepopularity.dao.GithubRepository;
+import com.qubit.languagepopularity.entity.GithubRepo;
 
 @Service
 public class GithubRepositoryServiceImpl implements GithubRepositoryService {
 
+	@Autowired
+	private GithubRepository githubRepository;
+
 	@Override
-	public List<GithubRepository> findAll() {
-		List<GithubRepository> repositories = List.of(new GithubRepository("test", "html_test", 200, new ProgramLanguage("Java")), new GithubRepository("test2", "html_test2", 209, new ProgramLanguage("C")));
+	public List<GithubRepo> findAll() {
+		List<GithubRepo> repositories = githubRepository.findAll();
 		return repositories;
 	}
 

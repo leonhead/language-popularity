@@ -2,10 +2,10 @@ package com.qubit.languagepopularity.service;
 
 import java.util.List;
 
-import com.qubit.languagepopularity.entity.GithubRepository;
+import com.qubit.languagepopularity.entity.GithubRepo;
 
 public interface GithubRepositoryService {
 	
-	public List<GithubRepository> findAll();
+	public List<GithubRepo> findAll();
 
 }
