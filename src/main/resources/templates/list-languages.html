@@ -32,7 +32,8 @@
 	<div class="container">
 		<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 			<h1 class="display-4">Programming Languages</h1>
-			<p class="lead">Most popular programming language based on most stars github repositories.</p>
+			<p class="lead">Most popular programming language based on most
+				stars github repositories.</p>
 		</div>
 		<table class="table table-borderd table-striped">
 			<thead class="thead-dark">
@@ -56,6 +57,32 @@
 			</tbody>
 
 		</table>
+
+		<nav>
+			<ul class="pagination bg-dark justify-content-center">
+				<li class="page-item"
+					th:classappend="${languages.number eq 0} ? 'disabled'"><a
+					class="page-link"
+					th:href="@{/languages?page={id}(id=${languages.number lt 2 ? 1 : languages.number})}"
+					aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+						<span aria-hidden="true">&laquo;</span>
+				</a></li>
+				<li class="page-item"
+					th:classappend="${i eq languages.number + 1} ? 'active'"
+					th:each="i : ${#numbers.sequence( 1, languages.totalPages, 1)}">
+					<a class="page-link" th:href="@{/languages?page={id}(id=${i})}"
+					th:text="${i}" th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+				</li>
+				<li class="page-item"
+					th:classappend="${languages.number + 1 eq languages.totalPages} ? 'disabled'">
+					<a class="page-link"
+					th:href="@{/languages?page={id}(id=${languages.number + 2})}"
+					aria-label="Next" title="Next Page" data-toggle="tooltip"> <span
+						aria-hidden="true">&raquo;</span>
+				</a>
+				</li>
+			</ul>
+		</nav>
 
 	</div>
 </body>

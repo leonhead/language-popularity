@@ -1,5 +1,7 @@
 package com.qubit.languagepopularity.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,16 +16,16 @@ import javax.persistence.Table;
 @Table(name = "github_repository")
 public class GithubRepo {
 
-	@Id()
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "github_repository_id")
 	private Long id;
-	
-	@Column(name="github_id")
+
+	@Column(name = "github_id")
 	private Long githubId;
-	
-	@Column(name="created")
-	private Long created;
+
+	@Column(name = "created")
+	private Timestamp created;
 
 	@Column(name = "full_name")
 	private String fullName;
@@ -41,7 +43,10 @@ public class GithubRepo {
 	public GithubRepo() {
 	}
 
-	public GithubRepo(String fullName, String htmlUrl, int stargazersCount, ProgramLanguage language) {
+	public GithubRepo(Long githubId, Timestamp created, String fullName, String htmlUrl, int stargazersCount,
+			ProgramLanguage language) {
+		this.githubId = githubId;
+		this.created = created;
 		this.fullName = fullName;
 		this.htmlUrl = htmlUrl;
 		this.stargazersCount = stargazersCount;
@@ -86,6 +91,22 @@ public class GithubRepo {
 
 	public void setLanguage(ProgramLanguage language) {
 		this.language = language;
+	}
+
+	public Long getGithubId() {
+		return githubId;
+	}
+
+	public void setGithubId(Long githubId) {
+		this.githubId = githubId;
+	}
+
+	public Timestamp getCreated() {
+		return created;
+	}
+
+	public void setCreated(Timestamp created) {
+		this.created = created;
 	}
 
 }

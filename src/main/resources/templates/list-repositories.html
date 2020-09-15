@@ -40,6 +40,7 @@
 					<th>Rank</th>
 					<th>Name</th>
 					<th>Language</th>
+					<th>Created</th>
 					<th>Stars</th>
 				</tr>
 
@@ -50,12 +51,40 @@
 					<td th:text="${iter.index+1}" />
 					<td th:text="${repository.fullName}" />
 					<td th:text="${repository.language.name}" />
+					<td th:text="${repository.created}" />
 					<td th:text="${repository.stargazersCount}" />
 				</tr>
 
 			</tbody>
 
 		</table>
+		
+		<nav>
+			<ul class="pagination bg-dark justify-content-center">
+				<li class="page-item"
+					th:classappend="${repositories.number eq 0} ? 'disabled'"><a
+					class="page-link"
+					th:href="@{/repositories?page={id}(id=${repositories.number lt 2 ? 1 : repositories.number})}"
+					aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+						<span aria-hidden="true">&laquo;</span>
+				</a></li>
+				<li class="page-item"
+					th:classappend="${i eq repositories.number + 1} ? 'active'"
+					th:each="i : ${#numbers.sequence( 1, repositories.totalPages, 1)}">
+					<a class="page-link" th:href="@{/repositories?page={id}(id=${i})}"
+					th:text="${i}" th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+				</li>
+				<li class="page-item"
+					th:classappend="${repositories.number + 1 eq repositories.totalPages} ? 'disabled'">
+					<a class="page-link"
+					th:href="@{/repositories?page={id}(id=${repositories.number + 2})}"
+					aria-label="Next" title="Next Page" data-toggle="tooltip"> <span
+						aria-hidden="true">&raquo;</span>
+				</a>
+				</li>
+			</ul>
+		</nav>
+		
 
 	</div>
 </body>

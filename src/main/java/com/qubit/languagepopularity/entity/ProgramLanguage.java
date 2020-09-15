@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "program_language")
 public class ProgramLanguage {
 
-	@Id()
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "program_language_id")
 	private Long id;
