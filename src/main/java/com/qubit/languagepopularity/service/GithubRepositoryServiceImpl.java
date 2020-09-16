@@ -25,19 +25,19 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
 	}
 
 	@Override
-	public void save(GithubRepo githubRepo) {
-		List<GithubRepo> githubRepos = githubRepository.findByGithubIdEquals(githubRepo.getGithubId());
-		if (githubRepos.isEmpty()) {
-			githubRepository.save(githubRepo);
-		}
+	public Page<GithubRepo> findAll(Pageable pageable) {
+		int size = pageable.getPageSize();
+		int page = pageable.getPageNumber();
+		Page<GithubRepo> repositories = githubRepository.findAll(PageRequest.of(page, size));
+		return repositories;
 	}
 
 	@Override
-	public Page<GithubRepo> findPaginated(int searchYear, Pageable pageable) {
+	public Page<GithubRepo> findByYear(Date start, Date end, Pageable pageable) {
 		int size = pageable.getPageSize();
 		int page = pageable.getPageNumber();
-		Date date = new Date(searchYear, 1, 1);
-		Page<GithubRepo> repositories = githubRepository.findByCreatedBefore(date, PageRequest.of(page, size));
+		Page<GithubRepo> repositories = githubRepository.findByCreatedAfterAndCreatedBefore(start, end,
+				PageRequest.of(page, size));
 		return repositories;
 	}
 
@@ -45,9 +45,17 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
 	public Page<GithubRepo> findByLanguage(String languageName, Pageable pageable) {
 		int size = pageable.getPageSize();
 		int page = pageable.getPageNumber();
-		Page<GithubRepo> repositories = githubRepository.findByLanguage_NameOrderByStargazersCountDesc(languageName, PageRequest.of(page, size));
+		Page<GithubRepo> repositories = githubRepository.findByLanguage_NameOrderByStargazersCountDesc(languageName,
+				PageRequest.of(page, size));
 		return repositories;
 	}
 
+	@Override
+	public void save(GithubRepo githubRepo) {
+		List<GithubRepo> githubRepos = githubRepository.findByGithubIdEquals(githubRepo.getGithubId());
+		if (githubRepos.isEmpty()) {
+			githubRepository.save(githubRepo);
+		}
+	}
 
 }

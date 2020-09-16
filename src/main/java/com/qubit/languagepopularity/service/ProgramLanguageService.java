@@ -11,11 +11,15 @@ import com.qubit.languagepopularity.entity.ProgramLanguage;
 public interface ProgramLanguageService {
 
 	public List<ProgramLanguage> findAll();
+	
+	public Page<ProgramLanguage> findAll(Pageable pageable);
 
 	public void save(ProgramLanguage programmLanguage);
 
 	public Optional<ProgramLanguage> findByName(String name);
+	
+	public Double getPopularity();
 
-	public Page<ProgramLanguage> findPaginated(Pageable pageable);
+	public Double getTrend();
 
 }

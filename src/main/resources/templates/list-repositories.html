@@ -1,12 +1,10 @@
 <html>
 <head>
-
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -16,11 +14,10 @@
 			aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-
 		<div class="collapse navbar-collapse" id="navbarColor01">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item active"><a class="nav-link"
-					href="languages">Languages</a></li>
+					href="/programlanguage/languages">Languages</a></li>
 				<li class="nav-item active"><a class="nav-link"
 					href="repositories">Repositories</a></li>
 				<li class="nav-item active"><a class="nav-link"
@@ -28,11 +25,15 @@
 			</ul>
 		</div>
 	</nav>
-	
 	<div class="container">
 		<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 			<h1 class="display-4">Github Repositories</h1>
 			<p class="lead">Most stars github repositories.</p>
+		</div>
+		<div class="btn-group" role="group" aria-label="Basic example">
+			<a class="btn btn-info" href="repositories?year=2019" role="button">2019</a>
+			<a class="btn btn-primary" href="repositories?year=2020"
+				role="button">2020</a>
 		</div>
 		<table class="table table-borderd table-striped">
 			<thead class="thead-dark">
@@ -43,49 +44,44 @@
 					<th>Created</th>
 					<th>Stars</th>
 				</tr>
-
 			</thead>
-
 			<tbody>
 				<tr th:each="repository,iter : ${repositories}">
-					<td th:text="${iter.index+1}" />
+					<td th:text="${iter.index+1+(repositories.number*20)}" />
 					<td th:text="${repository.fullName}" />
 					<td th:text="${repository.language.name}" />
-					<td th:text="${repository.created}" />
+					<td th:text="${#dates.format(repository.created, 'yyyy-MM-dd HH:mm')}"/>
+					
 					<td th:text="${repository.stargazersCount}" />
 				</tr>
-
 			</tbody>
-
 		</table>
-		
 		<nav>
 			<ul class="pagination bg-dark justify-content-center">
 				<li class="page-item"
 					th:classappend="${repositories.number eq 0} ? 'disabled'"><a
 					class="page-link"
-					th:href="@{/repositories?page={id}(id=${repositories.number lt 2 ? 1 : repositories.number})}"
+					th:href="@{repositories?page={id}(id=${repositories.number lt 2 ? 1 : repositories.number},year=${year})}"
 					aria-label="Previous" title="Previous Page" data-toggle="tooltip">
 						<span aria-hidden="true">&laquo;</span>
 				</a></li>
 				<li class="page-item"
 					th:classappend="${i eq repositories.number + 1} ? 'active'"
 					th:each="i : ${#numbers.sequence( 1, repositories.totalPages, 1)}">
-					<a class="page-link" th:href="@{/repositories?page={id}(id=${i})}"
+					<a class="page-link"
+					th:href="@{repositories?page={id}(id=${i},year=${year})}"
 					th:text="${i}" th:title="${'Page '+ i}" data-toggle="tooltip"></a>
 				</li>
 				<li class="page-item"
 					th:classappend="${repositories.number + 1 eq repositories.totalPages} ? 'disabled'">
 					<a class="page-link"
-					th:href="@{/repositories?page={id}(id=${repositories.number + 2})}"
+					th:href="@{repositories?page={id}(id=${repositories.number + 2},year=${year})}"
 					aria-label="Next" title="Next Page" data-toggle="tooltip"> <span
 						aria-hidden="true">&raquo;</span>
 				</a>
 				</li>
 			</ul>
 		</nav>
-		
-
 	</div>
 </body>
 </html>

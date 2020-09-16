@@ -15,21 +15,23 @@ import com.qubit.languagepopularity.entity.ProgramLanguage;
 import com.qubit.languagepopularity.service.ProgramLanguageService;
 
 @Controller
-@RequestMapping("languages")
+@RequestMapping("programlanguage")
 public class ProgramLanguageController {
 
 	@Autowired
-	private ProgramLanguageService languageService;
+	private ProgramLanguageService programLanguageService;
 
-	@GetMapping()
+	@GetMapping("/languages")
 	public String listLanguages(Model model, @RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size) {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(20);
 
-		Page<ProgramLanguage> languages = languageService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+		Page<ProgramLanguage> languages = programLanguageService.findAll(PageRequest.of(currentPage - 1, pageSize));
+
 		model.addAttribute("languages", languages);
 		model.addAttribute("pageNumbers", currentPage);
+		model.addAttribute("programLanguageService", programLanguageService);
 
 		return "list-languages";
 	}

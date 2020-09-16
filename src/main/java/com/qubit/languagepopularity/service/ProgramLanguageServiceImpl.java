@@ -25,7 +25,7 @@ public class ProgramLanguageServiceImpl implements ProgramLanguageService {
 	}
 
 	@Override
-	public Page<ProgramLanguage> findPaginated(Pageable pageable) {
+	public Page<ProgramLanguage> findAll(Pageable pageable) {
 		int size = pageable.getPageSize();
 		int page = pageable.getPageNumber();
 
@@ -46,5 +46,18 @@ public class ProgramLanguageServiceImpl implements ProgramLanguageService {
 		List<ProgramLanguage> programmLanguages = programLanguageRepository.findByNameEquals(name);
 		return programmLanguages.stream().findFirst();
 	}
+
+	@Override
+	public Double getPopularity() {
+		// TODO Auto-generated method stub
+		return 0.0;
+	}
+
+	@Override
+	public Double getTrend() {
+		// TODO Auto-generated method stub
+		return 0.0;
+	}
+
 
 }
