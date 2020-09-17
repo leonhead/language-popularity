@@ -4,19 +4,26 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.qubit.languagepopularity.dao.GithubRepository;
 import com.qubit.languagepopularity.dao.ProgramLanguageRepository;
+import com.qubit.languagepopularity.entity.Popularity;
 import com.qubit.languagepopularity.entity.ProgramLanguage;
 
 @Service
+@Primary
 public class ProgramLanguageServiceImpl implements ProgramLanguageService {
 
 	@Autowired
 	private ProgramLanguageRepository programLanguageRepository;
+
+	@Autowired
+	private GithubRepository githubRepository;
 
 	@Override
 	public List<ProgramLanguage> findAll() {
@@ -48,16 +55,22 @@ public class ProgramLanguageServiceImpl implements ProgramLanguageService {
 	}
 
 	@Override
-	public Double getPopularity() {
-		// TODO Auto-generated method stub
-		return 0.0;
+	public Long countProgramLanguage(ProgramLanguage programmLanguage) {
+		return githubRepository.countByLanguage_Name(programmLanguage.getName());
 	}
 
 	@Override
-	public Double getTrend() {
-		// TODO Auto-generated method stub
-		return 0.0;
-	}
+	public Double calculateTrend(ProgramLanguage programmLanguage) {
+		programmLanguage = programLanguageRepository.getOne(programmLanguage.getId());
+		List<Popularity> popularities = programmLanguage.getPopularities();
+		if (popularities.size() < 2) {
+			return 0.0;
+		}
 
+		Popularity currentPopularity = popularities.get(popularities.size() - 1);
+		Popularity lastPopularity = popularities.get(popularities.size() - 2);
+
+		return currentPopularity.getCurrency() - lastPopularity.getCurrency();
+	}
 
 }

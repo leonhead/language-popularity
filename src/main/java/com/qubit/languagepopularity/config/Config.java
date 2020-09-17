@@ -9,9 +9,9 @@ import com.qubit.languagepopularity.service.ProgramLanguageServiceImpl;
 @Configuration
 public class Config {
 
-    @Bean(name = "programLanguageService")
-    public ProgramLanguageService programLanguageService() {
-    	return new ProgramLanguageServiceImpl();
-    }
+	@Bean(name = "programLanguageService")
+	public ProgramLanguageService programLanguageService() {
+		return new ProgramLanguageServiceImpl();
+	}
 
 }

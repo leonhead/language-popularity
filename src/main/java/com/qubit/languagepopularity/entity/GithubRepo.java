@@ -19,7 +19,7 @@ public class GithubRepo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "github_repository_id")
-	private Long id;
+	private Integer id;
 
 	@Column(name = "github_id")
 	private Long githubId;
@@ -53,11 +53,11 @@ public class GithubRepo {
 		this.language = language;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

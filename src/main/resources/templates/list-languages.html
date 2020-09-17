@@ -48,8 +48,8 @@
 				<tr th:each="language,iter : ${languages}">
 					<td th:text="${iter.index+1+(languages.number*20)}" />
 					<td th:text="${language.name}" />
-					<td th:text="${@programLanguageService.getPopularity()}" />
-					<td th:text="${@programLanguageService.getTrend()}" />
+					<td th:text="${language.getCurrentPopularity()}" />
+					<td th:text="${@programLanguageService.calculateTrend(language)}" />
 				</tr>
 			</tbody>
 		</table>

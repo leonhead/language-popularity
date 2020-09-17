@@ -12,8 +12,10 @@ import com.qubit.languagepopularity.entity.GithubRepo;
 public interface GithubRepository extends JpaRepository<GithubRepo, Integer> {
 
 	public List<GithubRepo> findByGithubIdEquals(Long id);
-	
+
+	public Long countByLanguage_Name(String languageName);
+
 	public Page<GithubRepo> findByCreatedAfterAndCreatedBefore(Date start, Date end, Pageable pageable);
-	
+
 	public Page<GithubRepo> findByLanguage_NameOrderByStargazersCountDesc(String languageName, Pageable pageable);
 }
