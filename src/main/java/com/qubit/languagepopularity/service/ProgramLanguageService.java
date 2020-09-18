@@ -1,5 +1,6 @@
 package com.qubit.languagepopularity.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,11 +15,15 @@ public interface ProgramLanguageService {
 
 	public Page<ProgramLanguage> findAll(Pageable pageable);
 
-	public void save(ProgramLanguage programmLanguage);
+	public Optional<ProgramLanguage> findById(Integer id);
 
+	public void save(ProgramLanguage programmLanguage);
+	
+	public void update(ProgramLanguage programmLanguage);
+	
 	public Optional<ProgramLanguage> findByName(String name);
 
-	public Long countProgramLanguage(ProgramLanguage programmLanguage);
+	public Long countProgramLanguage(ProgramLanguage programmLanguage, Date start, Date end);
 
 	public Double calculateTrend(ProgramLanguage programmLanguage);
 

@@ -1,5 +1,6 @@
 package com.qubit.languagepopularity.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.qubit.languagepopularity.dao.GithubRepository;
@@ -36,27 +38,32 @@ public class ProgramLanguageServiceImpl implements ProgramLanguageService {
 		int size = pageable.getPageSize();
 		int page = pageable.getPageNumber();
 
-		return programLanguageRepository.findAll(PageRequest.of(page, size));
+		return programLanguageRepository.findAll(PageRequest.of(page, size, Sort.by("currency").descending()));
 	}
 
 	@Override
 	public void save(ProgramLanguage programmLanguage) {
-		List<ProgramLanguage> programmLanguages = programLanguageRepository
-				.findByNameEquals(programmLanguage.getName());
-		if (programmLanguages.isEmpty()) {
+		Optional<ProgramLanguage> language = programLanguageRepository.findOneByNameEquals(programmLanguage.getName());
+		if (!language.isPresent()) {
 			programLanguageRepository.save(programmLanguage);
 		}
 	}
 
 	@Override
-	public Optional<ProgramLanguage> findByName(String name) {
-		List<ProgramLanguage> programmLanguages = programLanguageRepository.findByNameEquals(name);
-		return programmLanguages.stream().findFirst();
+	public void update(ProgramLanguage programmLanguage) {
+		programLanguageRepository.save(programmLanguage);
 	}
 
 	@Override
-	public Long countProgramLanguage(ProgramLanguage programmLanguage) {
-		return githubRepository.countByLanguage_Name(programmLanguage.getName());
+	public Optional<ProgramLanguage> findByName(String name) {
+		Optional<ProgramLanguage> programmLanguage = programLanguageRepository.findOneByNameEquals(name);
+		return programmLanguage;
+	}
+
+	@Override
+	public Long countProgramLanguage(ProgramLanguage programmLanguage, Date start, Date end) {
+		return githubRepository.countByLanguage_NameAndCreatedAfterAndCreatedBefore(programmLanguage.getName(), start,
+				end);
 	}
 
 	@Override
@@ -71,6 +78,11 @@ public class ProgramLanguageServiceImpl implements ProgramLanguageService {
 		Popularity lastPopularity = popularities.get(popularities.size() - 2);
 
 		return currentPopularity.getCurrency() - lastPopularity.getCurrency();
+	}
+
+	@Override
+	public Optional<ProgramLanguage> findById(Integer id) {
+		return programLanguageRepository.findById(id);
 	}
 
 }

@@ -25,6 +25,9 @@ public class ProgramLanguage {
 	@Column(name = "program_language_name")
 	private String name;
 
+	@Column(name = "currency")
+	private Double currency;
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "programLanguage", cascade = { CascadeType.DETACH, CascadeType.MERGE,
 			CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<Popularity> popularities;
@@ -65,10 +68,15 @@ public class ProgramLanguage {
 			this.popularities = new ArrayList<Popularity>();
 		}
 		this.getPopularities().add(popularity);
+		this.currency = popularity.getCurrency();
 	}
 
-	public Double getCurrentPopularity() {
-		return this.getPopularities().get(getPopularities().size() - 1).getCurrency();
+	public Double getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Double currency) {
+		this.currency = currency;
 	}
 
 }

@@ -10,6 +10,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -39,7 +40,7 @@ public class GithubRest {
 		GithubRepositoryService githubRepositoryService = context.getBean(GithubRepositoryService.class);
 
 		GithubRest githubRest = new GithubRest();
-		HttpResponse<String> response = githubRest.getRepositoriesByStars("2019-01-01", "2019-12-31");
+		HttpResponse<String> response = githubRest.getRepositoriesByStars("2020-01-01", "2020-12-31");
 		String content = response.body();
 		ObjectMapper objectMapper = new ObjectMapper();
 		GithubResponse githubResponse = objectMapper.readValue(content, GithubResponse.class);
@@ -48,7 +49,6 @@ public class GithubRest {
 			String languageString = repository.getLanguage();
 			if (languageString != null && !languageString.isEmpty()) {
 				ProgramLanguage programLanguage = new ProgramLanguage(languageString);
-				programLanguage.addPopularity(new Popularity(2019, 0.0, programLanguage));
 				programLanguageService.save(programLanguage);
 			}
 			Optional<ProgramLanguage> language = programLanguageService.findByName(repository.getLanguage());
@@ -59,14 +59,20 @@ public class GithubRest {
 				githubRepositoryService.save(repo);
 			}
 		}
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(2020, 0, 1, 0, 0, 0);
+		Date start = calendar.getTime();
+		calendar.set(2020, 11, 31, 23, 59, 59);
+		Date end = calendar.getTime();
 
 		double repoNumber = githubResponse.getRepositories().size();
 		List<ProgramLanguage> languages = programLanguageService.findAll();
 		for (ProgramLanguage programLanguage : languages) {
-			double count = programLanguageService.countProgramLanguage(programLanguage);
+			double count = programLanguageService.countProgramLanguage(programLanguage, start, end);
 			double result = count / repoNumber * 100;
-			programLanguage.getPopularities().get(0).setCurrency((double) Math.round(result * 100.0));
-			programLanguageService.save(programLanguage);
+			programLanguage.addPopularity(new Popularity(2020, Math.round(result * 100.0) / 100.0, programLanguage));
+			programLanguageService.update(programLanguage);
 		}
 		System.out.println("finished");
 

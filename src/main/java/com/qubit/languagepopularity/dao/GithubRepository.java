@@ -13,7 +13,7 @@ public interface GithubRepository extends JpaRepository<GithubRepo, Integer> {
 
 	public List<GithubRepo> findByGithubIdEquals(Long id);
 
-	public Long countByLanguage_Name(String languageName);
+	public Long countByLanguage_NameAndCreatedAfterAndCreatedBefore( String languageName, Date start, Date end);
 
 	public Page<GithubRepo> findByCreatedAfterAndCreatedBefore(Date start, Date end, Pageable pageable);
 
