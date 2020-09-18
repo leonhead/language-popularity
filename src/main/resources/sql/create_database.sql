@@ -9,6 +9,7 @@ DROP TABLE if exists program_language;
 CREATE TABLE program_language(
     program_language_id int NOT NULL AUTO_INCREMENT,
     program_language_name varchar(40) NOT NULL UNIQUE,
+    currency double,
     
     PRIMARY KEY (program_language_id)
    );
